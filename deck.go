@@ -1,9 +1,13 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"io/ioutil"
+	"strings"
+)
 
 // create a new type of 'deck'
-// which is a slice if strings
+// which is a slice of strings
 
 type deck []string // this means deck == []string
 
@@ -30,4 +34,17 @@ func (d deck) print() {
 		fmt.Println(i, card)
 	}
 
+}
+
+func deal(d deck, handSize int) (deck, deck) {
+	return d[:handSize], d[handSize:]
+
+}
+
+func (d deck) toString() string {
+	return strings.Join([]string(d), ",")
+}
+
+func (d deck) saveToFile(filename string) error {
+	return ioutil.WriteFile(filename, []byte(d.toString()), 0666)
 }
